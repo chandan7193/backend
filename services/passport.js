@@ -13,20 +13,21 @@ passport.use(
       callbackURL: '/auth/google/callback'
     },
     (accessToken, refreshToken, profile, done) => {
-      User.findOne({googleId: profile.id})
-      .then((existingUser)=>{
-        if(existingUser){
+      User.findOne({ googleId: profile.id }).then(existingUser => {
+        if (existingUser) {
           //we already have a record with given profile id
+          done(null, existingUser)
         } else {
           //we dont have the with such profile id
-            new User({ googleId: profile.id }).save()
+          new User({ googleId: profile.id })
+          .save()
+          .then(user => done(null, user));
         }
-      })
-    // This thing is creating a new instance of User Model
-    // new User(...) method below will create just new User in 'JS World/Express Api' and not be saved in database.
-    // .save() method will save the data in mongoDB
-
+      });
 
     }
   )
 );
+// This thing is creating a new instance of User Model
+// new User(...) method below will create just new User in 'JS World/Express Api' and not be saved in database.
+// .save() method will save the data in mongoDB
