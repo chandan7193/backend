@@ -30,10 +30,9 @@ passport.use(
           return done(null, existingUser);
         }
           //we dont have the with such profile id
-        const user =await new User({ googleId: profile.id }).save()
+        const user = await new User({ googleId: profile.id }).save()
         done(null, user);
       }
-    }
 
   )
 );
