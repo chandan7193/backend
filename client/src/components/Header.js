@@ -6,7 +6,7 @@ export default class Header extends Component{
       <div >
         <nav>
           <div className="nav-wrapper">
-            <a href="#" className=" left brand-logo">Emaily</a>
+            <a className=" left brand-logo">Emaily</a>
             <ul  className="right">
               <li><a >Login with Google</a></li>
             </ul>
