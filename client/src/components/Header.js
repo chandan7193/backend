@@ -4,7 +4,7 @@ import { connect }from 'react-redux';
 
  class Header extends Component{
    renderContent(){
-
+     console.log('auth', this.props.auth)
      switch(this.props.auth)  {
        case null:
         return
@@ -33,6 +33,7 @@ import { connect }from 'react-redux';
 }
 
 function mapsStateToProps({auth}){
+  console.log('before sending to rendere method', auth);
   return {auth};
 }
 
