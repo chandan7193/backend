@@ -9,7 +9,7 @@ import { connect }from 'react-redux';
        case null:
         return
        case false:
-        return <li><a href = "auth/google" >Login with Google</a></li>;
+        return <li><a href = "/auth/google" >Login with Google</a></li>;
        default:
         return <li>Logged out</li>;
      }
@@ -33,6 +33,7 @@ import { connect }from 'react-redux';
 }
 
 function mapsStateToProps({auth}){
+  console.log(auth)
   return {auth};
 }
 
