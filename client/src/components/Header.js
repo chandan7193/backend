@@ -46,7 +46,7 @@ import Payments from './Payments';
 }
 
 function mapsStateToProps({auth}){
-  console.log('before sending to rendere method', auth);
+  
   return {auth};
 }
 
