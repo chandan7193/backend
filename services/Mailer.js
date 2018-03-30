@@ -15,6 +15,7 @@ class Mailer extends helper.Mail {
 
     this.addContent(this.body);
     this.addClickTracking(); //we write this method because sendgrid redirect href to its own href for analytics purpose
+    this.addRecipients();
   }
 
   formatAddresses(recipients) {
@@ -32,7 +33,7 @@ class Mailer extends helper.Mail {
   }
 
   addRecipients() {
-    const personalize = new helper.Persolization();
+    const personalize = new helper.Personalization();
     this.recipients.forEach(recipient => {
       personalize.addTo(recipient);
     });
