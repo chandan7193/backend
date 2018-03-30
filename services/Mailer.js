@@ -1,50 +1,50 @@
-const sendgrid = require('sendgrid');
+const sendgrid = require("sendgrid");
 const helper = sendgrid.mail;
 
-const keys = require('../config/keys');
+const keys = require("../config/keys");
 
-class Mailer extends helper.Mail{
-  constructor({subject, recipients}, content){
+class Mailer extends helper.Mail {
+  constructor({ subject, recipients }, content) {
     super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
-    this.from_email = new helper.Email('no-reply@emaily.com');
+    this.from_email = new helper.Email("no-reply@emaily.com");
     this.subject = subject;
-    this.body = new helper.Content('text/html', content);
-    this.recipients = this.formatAddresses(recipients);
+    this.body = new helper.Content("text/html", content);
+    this.recipients = this.formatAddresses(recipients); //method is being called which needs recipients is passed to this.recipients variable
 
     this.addContent(this.body);
-    this.addClickTracking();
+    this.addClickTracking(); //we write this method because sendgrid redirect href to its own href for analytics purpose
   }
 
-  formatAddresses(recipients){
-    return recipients.map(({email }) =>{
+  formatAddresses(recipients) {
+    return recipients.map(({ email }) => {
       return new helper.Email(email);
     });
   }
 
-  addClickTracking(){
+  addClickTracking() {
     const trackingSettings = new helper.TrackingSettings();
-    const clickTracking = new helper.ClickTracking(true,true);
+    const clickTracking = new helper.ClickTracking(true, true);
 
     trackingSettings.setClickTracking(clickTracking);
     this.addTrackingSettings(trackingSettings);
   }
 
-  addRecipients(){
+  addRecipients() {
     const personalize = new helper.Persolization();
     this.recipients.forEach(recipient => {
       personalize.addTo(recipient);
-    })
+    });
     this.addPersonalization(personalize);
   }
 
-  async send(){
+  async send() {
     const request = this.sgApi.emptyRequest({
-      method: 'POST',
-      path:'/v3/mail/send',
-      body:this.toJSON()
-    })
+      method: "POST",
+      path: "/v3/mail/send",
+      body: this.toJSON()
+    });
 
     const response = this.sgApi.API(request);
     return response;
@@ -52,3 +52,8 @@ class Mailer extends helper.Mail{
 }
 
 module.exports = Mailer;
+
+//Description
+//constructor takes 2 parameters
+//1) object
+//2) content variable
