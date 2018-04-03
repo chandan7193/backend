@@ -4,18 +4,21 @@ import { Link } from "react-router-dom";
 import Payments from "./Payments";
 
 class Header extends Component {
+  
   renderContent() {
     switch (this.props.auth) {
       case null:
+      
         return;
       case false:
+      
         return (
           <li>
             <a href="auth/google">Login with Google</a>
           </li>
         );
       default:
-        console.log(this.props.auth.credits);
+      
         return [
           <li key="1">
             <Payments />
