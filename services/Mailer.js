@@ -8,11 +8,14 @@ class Mailer extends helper.Mail {
     super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
-    this.from_email = new helper.Email("chandan.singh7193@gmail.com");
+    this.from_email = new helper.Email(
+      "sindhu@letsdogether.com",
+      "SJ from Dogether"
+    );
     this.subject = subject;
     this.body = new helper.Content("text/html", content);
     this.recipients = this.formatAddresses(recipients); //method is being called which needs recipients is passed to this.recipients variable
-
+    this.reply_to = { email: "hammad@letsdogether.com", name: "Hammad Jilani" };
     this.addContent(this.body);
     this.addClickTracking(); //we write this method because sendgrid redirect href to its own href for analytics purpose
     this.addRecipients();
@@ -33,11 +36,11 @@ class Mailer extends helper.Mail {
   }
 
   addRecipients() {
-    const personalize = new helper.Personalization();
     this.recipients.forEach(recipient => {
+      const personalize = new helper.Personalization();
       personalize.addTo(recipient);
+      this.addPersonalization(personalize);
     });
-    this.addPersonalization(personalize);
   }
 
   async send() {
@@ -53,8 +56,3 @@ class Mailer extends helper.Mail {
 }
 
 module.exports = Mailer;
-
-//Description
-//constructor takes 2 parameters
-//1) object
-//2) content variable

@@ -7,14 +7,9 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
-  // app.post("/api/surveys/webhook", (req, res) => {
-  //   console.log(req.body);
-  //   res.send({});
-  // });
-
   app.post("/api/surveys", async (req, res) => {
     const { title, subject, body, recipients } = req.body;
-
+    console.log("title", title);
     const survey = new Survey({
       title,
       subject,
@@ -30,12 +25,12 @@ module.exports = app => {
 
     try {
       await mailer.send();
-      await survey.save();
-
-      const user = await req.user.save();
+      const user = req.user.save();
 
       res.send(user);
     } catch (err) {
+      //Log friendly error
+
       res.status(422).send(err);
     }
   });
